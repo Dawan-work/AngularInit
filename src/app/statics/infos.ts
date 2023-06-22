@@ -867,6 +867,8 @@ export class AppModule { }</code>`
     </body>
 </html>
 </code>
+Il est possible d'utiliser des router-outlet dans d'autres composants, ceci donne lieu à l'utilisation de routes enfant pour lesquels il sera parfois nécessaire de nommer le router-outlet à cibler :
+<code><router-outlet name="exercice"></router-outlet></code>
 Pour plus d'options de personalisation de la balise, voir la <a href="https://angular.io/api/router/RouterOutlet" target="_blank">Documentation Officielle</a> `
               },
               {
@@ -889,7 +891,8 @@ Rappel :
 <code>const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'first-component', component: FirstComponent },
-  { path: 'second-component', component: SecondComponent },
+  // En cas de présence de router-outlet nommés, on peut préciser celui ciblé par une route
+  { path: 'second-component', component: SecondComponent, outlet: 'outletName' },
   { path: '**', component: PageNotFoundComponent }
 ];</code>
 Cependant cet objet possède plus d'attributs dont la liste est disponible dans la <a href="https://angular.io/api/router/Route" target="_blank">Documentation Officielle</a>`,
@@ -900,8 +903,10 @@ Cependant cet objet possède plus d'attributs dont la liste est disponible dans 
 Exemple :
 <code>{ path: 'exemple/:sujet', component: ExempleComponent } // Variable 'sujet'</code>
 Le lien vers cette route peut ainsi contenir une valeur prédéfinie pour la variable sujet ou également utiliser une variable :
-<code><button routerLink="/exemple/routing">Lien vers l'exemple routing</button>
-<a [routerLink]="['/exemple',sujet]">Lien vers Exemple avec un sujet variable</a></code>
+<code><a routerLink="/exemple/routing">Lien vers l'exemple routing</a>
+<a routerLink="/exemple/(outletName:routing)">Idem Ciblant un outlet nommé</a>
+<a [routerLink]="['/exemple',sujet]">Lien vers Exemple avec un sujet variable</a>
+<a [routerLink]="['/exemple',{outlets: {'outletName' : sujet}}]">Idem Ciblant un outlet nommé</a></code>
 Enfin, pour récupérer la valeur de la variable dans le composant appelé, on procédera comme suit :
 <code>import {Component} from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
